@@ -19,6 +19,7 @@ public class Tablero {
 	}
 
 	public boolean modificarTablero(int[] coord, String ficha, String className) {
+		boolean valid = true;
 		//esto es boolean para verificar que la ficha se ponga correctamente, esto se llamara desde un do while
 		if (tablero[coord[1]][coord[0]].equals(".")) { //esto lo hago para verificar que esa casilla no esta utilizada
 			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
@@ -29,16 +30,17 @@ public class Tablero {
 					tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
 				} else {
 					tablero[coord[1]][coord[0]] = ".";
-					return false;
+					valid = false;
 				}
 			} else {
 				tablero[coord[1]][coord[0]] = ficha;
 			}
 			pintarTablero();
-			return true;
 			//deberiamos verificar aquí si el jugador ha ganado
+		} else {
+			valid = false;
 		}
-		return false;
+		return valid;
 	}
 
 	public void pintarTablero() {
