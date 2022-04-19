@@ -18,22 +18,27 @@ public class Tablero {
 		}
 	}
 
-	public void modificarTablero(int[] coord, String ficha, String className) {
-		//esto lo hago para no preguntarle a la ia si esta seguro
-		if (className.equals("Persona")) {
-			tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
-			pintarTablero();
-			System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
-			if (consoleIn.readBooleanUsingChar('s', 'n')) {
-				tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+	public boolean modificarTablero(int[] coord, String ficha, String className) {
+		//esto es boolean para verificar que la ficha se ponga correctamente, esto se llamara desde un do while
+		if (tablero[coord[1]][coord[0]].equals(".")) { //esto lo hago para verificar que esa casilla no esta utilizada
+			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
+				tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
+				pintarTablero();
+				System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
+				if (consoleIn.readBooleanUsingChar('s', 'n')) {
+					tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+				} else {
+					tablero[coord[1]][coord[0]] = ".";
+					return false;
+				}
 			} else {
-				tablero[coord[1]][coord[0]] = ".";
+				tablero[coord[1]][coord[0]] = ficha;
 			}
-		} else {
-			tablero[coord[1]][coord[0]] = ficha;
+			pintarTablero();
+			return true;
+			//deberiamos verificar aquí si el jugador ha ganado
 		}
-
-		pintarTablero();
+		return false;
 	}
 
 	public void pintarTablero() {
