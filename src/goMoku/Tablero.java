@@ -18,16 +18,21 @@ public class Tablero {
 		}
 	}
 
-	public void modificarTablero(int[] coord, String ficha) {
-		tablero[coord[1]][coord[0]] = ficha; //Aquí hacer ficha de color distinto
-		System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
-		pintarTablero();
-		if (consoleIn.readBooleanUsingChar('s', 'n')) {
-			tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+	public void modificarTablero(int[] coord, String ficha, String className) {
+		//esto lo hago para no preguntarle a la ia si esta seguro
+		if (className.equals("Persona")) {
+			tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
+			pintarTablero();
+			System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
+			if (consoleIn.readBooleanUsingChar('s', 'n')) {
+				tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+			} else {
+				tablero[coord[1]][coord[0]] = ".";
+			}
 		} else {
-			tablero[coord[1]][coord[0]] = ".";
+			tablero[coord[1]][coord[0]] = ficha;
 		}
-		//¿Como hacemos para que la ia responda si a esta pregunta siempre????
+
 		pintarTablero();
 	}
 

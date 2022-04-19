@@ -6,7 +6,7 @@ public class Pruebas {
 		Tablero tablero = new Tablero();
 		tablero.pintarTablero();
 		Jugador persona = new Persona();
-		tablero.modificarTablero(persona.indicarCoordenada(), persona.getFicha());
+		tablero.modificarTablero(persona.indicarCoordenada(), persona.getFicha(), persona.getClass().getSimpleName());
 	}
 
 }
