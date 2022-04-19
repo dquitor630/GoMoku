@@ -132,6 +132,7 @@ public enum BaseDeDatos {
 		nombres.add("Nasus");
 		nombres.add("Caballero De La Orden Teutónica");
 		nombres.add("Oh Long Jhonson");
+		nombres.add("Blitzcrank");
 		nombres.add("Rodrigo");
 		nombres.add("Almagro");
 
