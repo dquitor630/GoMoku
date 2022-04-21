@@ -7,7 +7,9 @@ public class Juego {
 		tablero.pintarTablero();
 		Jugador persona = new Persona(1, "Diego");
 		Jugador persona2 = new Persona(2, "Pepe");
-		Partida partida = new Partida(persona, persona2, tablero);
+		Jugador ia1 = new Ia(1);
+		Jugador ia2 = new Ia(2);
+		Partida partida = new Partida(ia1, ia2, tablero);
 
 	}
 

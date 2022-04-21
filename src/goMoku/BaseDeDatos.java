@@ -70,7 +70,7 @@ public enum BaseDeDatos {
 		nombres.add("Florentino");
 		nombres.add("Calixto");
 		nombres.add("Custodio");
-		nombres.add("Cristián");
+		nombres.add("Cristian");
 		nombres.add("Bernardo");
 		nombres.add("Viviana");
 		nombres.add("Óscar");

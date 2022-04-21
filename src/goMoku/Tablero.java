@@ -9,6 +9,12 @@ public class Tablero {
 			{ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15" } };
 	Scanner keyboard = new Scanner(System.in);
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
+	private boolean terminado;
+
+	public boolean isTerminado() {
+		return terminado;
+	}
+
 	public int[] ultimaCasilla = new int[2];
 
 	Tablero() {
@@ -102,7 +108,9 @@ public class Tablero {
 
 		j = ultimaCasilla[1];
 		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
-			j++;
+			if (j != 14) {
+				j++;
+			}
 			if (tablero[j][i].equals(ficha)) {
 				dia1 = dia1 + 1;
 			} else {
@@ -112,7 +120,10 @@ public class Tablero {
 
 		j = ultimaCasilla[1];
 		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
-			j++;
+			if (j != 14) {
+				j++;
+			}
+
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {
@@ -133,10 +144,13 @@ public class Tablero {
 		}
 
 		if (hor >= 5 || ver >= 5 || dia1 >= 5 || dia2 >= 5) {
+			terminado = true;
 			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
 			return true;
+		} else {
+			return false;
 		}
-		return false;
+
 	}
 
 	public void pintarTablero() {

@@ -24,7 +24,7 @@ public class Partida {
 				exit = tablero.modificarTablero(jugador1.indicarCoordenada(tablero), jugador1.getFicha(),
 						jugador1.getClass().getSimpleName());
 			} while (!exit);
-			if (tablero.verificarVictoria()) {
+			if (tablero.isTerminado()) {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador1.getNombre());
 			} else {
@@ -36,7 +36,7 @@ public class Partida {
 							jugador2.getClass().getSimpleName());
 				} while (!exit);
 			}
-			if (tablero.verificarVictoria()) {
+			if (tablero.isTerminado() && game != true) {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador2.getNombre());
 			}
