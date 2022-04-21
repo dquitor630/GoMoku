@@ -122,7 +122,9 @@ public class Tablero {
 
 		j = ultimaCasilla[1];
 		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
-			j--;
+			if (j != 0) {
+				j--;
+			}
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {

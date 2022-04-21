@@ -15,22 +15,33 @@ public class Partida {
 	}
 
 	private void juego() {
+		boolean exit = false;
+		boolean game = false;
 		do {
-			boolean exit = false;
 			numTurno = numTurno + 1;
 			System.out.println("Turno " + numTurno + ", Jugador " + jugador1.getNombre());
 			do {
 				exit = tablero.modificarTablero(jugador1.indicarCoordenada(tablero), jugador1.getFicha(),
 						jugador1.getClass().getSimpleName());
 			} while (!exit);
-			numTurno = numTurno + 1;
-			exit = false;
-			System.out.println("Turno " + numTurno + ", Jugador " + jugador2.getNombre());
-			do {
-				exit = tablero.modificarTablero(jugador2.indicarCoordenada(tablero), jugador2.getFicha(),
-						jugador2.getClass().getSimpleName());
-			} while (!exit);
-		} while (true);
+			if (tablero.verificarVictoria()) {
+				game = true;
+				System.out.println("Ha ganado el jugador " + jugador1.getNombre());
+			} else {
+				numTurno = numTurno + 1;
+				exit = false;
+				System.out.println("Turno " + numTurno + ", Jugador " + jugador2.getNombre());
+				do {
+					exit = tablero.modificarTablero(jugador2.indicarCoordenada(tablero), jugador2.getFicha(),
+							jugador2.getClass().getSimpleName());
+				} while (!exit);
+			}
+			if (tablero.verificarVictoria()) {
+				game = true;
+				System.out.println("Ha ganado el jugador " + jugador2.getNombre());
+			}
+
+		} while (!game);
 	}
 
 	//programar mensaje de derrota si es una ia
