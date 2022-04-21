@@ -153,6 +153,14 @@ public class Tablero {
 
 	}
 
+	public String[][] getTablero() {
+		return tablero;
+	}
+
+	public int[] getUltimaCasilla() {
+		return ultimaCasilla;
+	}
+
 	public void pintarTablero() {
 		System.out.print("   ");
 		for (int i = 0; i < coordenadas[0].length; i++) {

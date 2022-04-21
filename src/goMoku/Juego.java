@@ -9,7 +9,7 @@ public class Juego {
 		Jugador persona2 = new Persona(2, "Pepe");
 		Jugador ia1 = new Ia(1);
 		Jugador ia2 = new Ia(2);
-		Partida partida = new Partida(ia1, ia2, tablero);
+		Partida partida = new Partida(persona, ia2, tablero);
 
 	}
 
