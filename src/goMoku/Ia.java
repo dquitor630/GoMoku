@@ -1,12 +1,11 @@
 package goMoku;
 
 public class Ia extends Jugador {
-	Ia() {
-		nombre = BaseDeDatos.INSTANCE.getRandomName();
+	Ia(int numJugador) {
+		super(numJugador, BaseDeDatos.INSTANCE.getRandomName());
 	}
 
-	@Override
-	protected int[] indicarCoordenada() {
+	protected int[] indicarCoordenada(Tablero tablero) {
 
 		return null;
 	}

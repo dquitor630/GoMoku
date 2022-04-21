@@ -9,6 +9,7 @@ public class Tablero {
 			{ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15" } };
 	Scanner keyboard = new Scanner(System.in);
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
+	public int[] ultimaCasilla = new int[2];
 
 	Tablero() {
 		for (int i = 0; i < tablero.length; i++) {
@@ -28,19 +29,112 @@ public class Tablero {
 				System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
 				if (consoleIn.readBooleanUsingChar('s', 'n')) {
 					tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+					ultimaCasilla[0] = coord[0];
+					ultimaCasilla[1] = coord[1];
+					verificarVictoria();
 				} else {
 					tablero[coord[1]][coord[0]] = ".";
 					valid = false;
 				}
 			} else {
 				tablero[coord[1]][coord[0]] = ficha;
+				ultimaCasilla[0] = coord[0];
+				ultimaCasilla[1] = coord[1];
+				verificarVictoria();
 			}
+			//para que nos de la salida en verde la siguiente
 			pintarTablero();
 			//deberiamos verificar aquí si el jugador ha ganado
 		} else {
+			System.out.println("La coordenada ya esta en uso, introduzca otra distinta");
 			valid = false;
 		}
 		return valid;
+	}
+
+	public boolean verificarVictoria() {
+		int hor = 1;
+		int ver = 1;
+		int dia1 = 1;
+		int dia2 = 1;
+		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
+		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
+				hor = hor + 1;
+			} else {
+				i = 15;
+			}
+		}
+		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
+				hor = hor + 1;
+			} else {
+				i = -1;
+			}
+		}
+		for (int i = ultimaCasilla[1] + 1; i < 15; i++) {
+			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
+				ver = ver + 1;
+			} else {
+				i = 15;
+			}
+		}
+		for (int i = ultimaCasilla[1] - 1; i >= 0; i--) {
+			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
+				ver = ver + 1;
+			} else {
+				i = -1;
+			}
+		}
+
+		int j = ultimaCasilla[1];
+		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+			if (j != 0) {
+				j--;
+			}
+
+			if (tablero[j][i].equals(ficha)) {
+				dia1 = dia1 + 1;
+			} else {
+				i = 15;
+			}
+		}
+
+		j = ultimaCasilla[1];
+		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+			j++;
+			if (tablero[j][i].equals(ficha)) {
+				dia1 = dia1 + 1;
+			} else {
+				i = -1;
+			}
+		}
+
+		j = ultimaCasilla[1];
+		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+			j++;
+			if (tablero[j][i].equals(ficha)) {
+				dia2 = dia2 + 1;
+			} else {
+				i = 15;
+			}
+		}
+
+		j = ultimaCasilla[1];
+		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+			j--;
+			if (tablero[j][i].equals(ficha)) {
+				dia2 = dia2 + 1;
+			} else {
+				i = -1;
+			}
+		}
+
+		if (hor >= 5 || ver >= 5 || dia1 >= 5 || dia2 >= 5) {
+			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
+			return true;
+		}
+		return false;
 	}
 
 	public void pintarTablero() {

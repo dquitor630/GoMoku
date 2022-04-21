@@ -2,8 +2,12 @@ package goMoku;
 
 public class Persona extends Jugador {
 
+	Persona(int numJugador, String nombre) {
+		super(numJugador, nombre);
+	}
+
 	@Override
-	protected int[] indicarCoordenada() {
+	public int[] indicarCoordenada(Tablero tablero) {
 		boolean exit;
 		int[] result = new int[2];
 		System.out.println("Introduce la Coordenada X (a-o)");
