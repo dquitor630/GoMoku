@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public abstract class Jugador {
 	protected String nombre;
-	private static final String ficha1 = Colors.BLUE + "X" + Colors.RESET;
-	private static final String ficha2 = Colors.YELLOW + "O" + Colors.RESET;
 	protected int numJugador;
 	Scanner keyboard = new Scanner(System.in);
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
@@ -23,9 +21,9 @@ public abstract class Jugador {
 
 	public String getFicha() {
 		if (numJugador == 1) {
-			return ficha1;
+			return Ficha.FICHA1.getFicha();
 		} else {
-			return ficha2;
+			return Ficha.FICHA2.getFicha();
 		}
 
 	}
