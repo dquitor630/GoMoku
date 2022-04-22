@@ -1,5 +1,7 @@
 package goMoku;
 
+import java.util.concurrent.TimeUnit;
+
 public class Partida {
 	//tengo que hacer que al llegar al turno x la partida termina porque no quedan espacios
 	private Jugador jugador1;
@@ -24,6 +26,12 @@ public class Partida {
 				exit = tablero.modificarTablero(jugador1.indicarCoordenada(tablero), jugador1.getFicha(),
 						jugador1.getClass().getSimpleName());
 			} while (!exit);
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (tablero.isTerminado()) {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador1.getNombre());
@@ -40,7 +48,12 @@ public class Partida {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador2.getNombre());
 			}
-
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} while (!game);
 	}
 

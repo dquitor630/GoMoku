@@ -9,7 +9,8 @@ public class Juego {
 		Jugador persona2 = new Persona(2, "Pepe");
 		Jugador ia1 = new Ia(1);
 		Jugador ia2 = new Ia(2);
-		Partida partida = new Partida(persona, ia2, tablero);
+		//estaría interesante tirar una moneda para ver quien empieza primero
+		Partida partida = new Partida(persona, persona2, tablero);
 
 	}
 

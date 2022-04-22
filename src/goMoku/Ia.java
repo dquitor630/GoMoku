@@ -99,7 +99,7 @@ public class Ia extends Jugador {
 		}
 
 		if (hor >= 3 || ver >= 3 || dia1 >= 3 || dia2 >= 3) {
-			if (hor >= 3) {
+			if (hor >= 3 && hor >= ver) { //programar que tenga prioridades segun situación
 				for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
 					if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 					} else {
@@ -142,6 +142,79 @@ public class Ia extends Jugador {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".")) {
 							values[0] = ultimaCasilla[0];
 							values[1] = i;
+							decision = true;
+						}
+						i = -1;
+					}
+				}
+			}
+
+			if (dia1 >= 3 && !decision) {
+				j = ultimaCasilla[1];
+				for (int i = ultimaCasilla[0]; i < 15; i++) {
+					if (tablero[j][i].equals(ficha)) {
+
+					} else {
+						if (i >= 2 && j <= 13) {
+							i = i - 2;
+							j = j + 1;
+						}
+
+						if (!decision && tablero[j][i].equals(".")) {
+							values[0] = i;
+							values[1] = j;
+							decision = true;
+						}
+						i = 15;
+					}
+				}
+
+				j = ultimaCasilla[1];
+				for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+					if (tablero[j][i].equals(ficha)) {
+					} else {
+						if (i <= 12 && j >= 1) {
+							i = i + 2;
+							j = j - 1;
+						}
+						if (!decision && tablero[j][i].equals(".")) {
+							values[0] = i;
+							values[1] = j;
+							decision = true;
+						}
+						i = -1;
+					}
+				}
+			}
+			if (dia2 >= 3 && !decision) {
+				j = ultimaCasilla[1];
+				for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+					if (tablero[j][i].equals(ficha)) {
+					} else {
+						if (j <= 13) {
+							j = j + 1;
+						}
+
+						if (!decision && tablero[j][i].equals(".")) {
+							values[0] = i;
+							values[1] = j;
+							decision = true;
+						}
+						i = 15;
+					}
+				}
+
+				j = ultimaCasilla[1];
+				for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+					if (tablero[j][i].equals(ficha)) {
+					} else {
+						if (j >= 1) {
+							j = j - 1;
+						}
+
+						if (!decision && tablero[j][i].equals(".")) {
+							values[0] = i;
+							values[1] = j;
 							decision = true;
 						}
 						i = -1;
