@@ -64,37 +64,44 @@ public class Tablero {
 		int dia1 = 1;
 		int dia2 = 1;
 		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		//esto deberia hacerlo con do while creo, porque realmente no se las veces que 
+		//voy a iterar, pero a la vez debo ponerle un limite
+		//igual es mejor simplemente poner un if dentro de un do while
+		boolean exit = false;
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 				hor = hor + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		exit = false;
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 				hor = hor + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[1] + 1; i < 15; i++) {
+		exit = false;
+		for (int i = ultimaCasilla[1] + 1; i < 15 && !exit; i++) {
 			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 				ver = ver + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[1] - 1; i >= 0; i--) {
+		exit = false;
+		for (int i = ultimaCasilla[1] - 1; i >= 0 && !exit; i--) {
 			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 				ver = ver + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		int j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 0) {
 				j--;
 			}
@@ -102,24 +109,24 @@ public class Tablero {
 			if (tablero[j][i].equals(ficha)) {
 				dia1 = dia1 + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 14) {
 				j++;
 			}
 			if (tablero[j][i].equals(ficha)) {
 				dia1 = dia1 + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 14) {
 				j++;
 			}
@@ -127,22 +134,22 @@ public class Tablero {
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 0) {
 				j--;
 			}
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		if (hor >= 5 || ver >= 5 || dia1 >= 5 || dia2 >= 5) {
 			terminado = true;
 			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;

@@ -10,7 +10,7 @@ public class Juego {
 		Jugador ia1 = new Ia(1);
 		Jugador ia2 = new Ia(2);
 		//estaría interesante tirar una moneda para ver quien empieza primero
-		Partida partida = new Partida(persona, persona2, tablero);
+		Partida partida = new Partida(ia1, ia2, tablero);
 
 	}
 

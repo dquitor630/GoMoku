@@ -19,37 +19,41 @@ public class Ia extends Jugador {
 		int[] ultimaCasilla = tableroOriginal.getUltimaCasilla();
 		String[][] tablero = tableroOriginal.getTablero();
 		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		boolean exit = false;
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 				hor = hor + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		exit = false;
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 				hor = hor + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[1] + 1; i < 15; i++) {
+		exit = false;
+		for (int i = ultimaCasilla[1] + 1; i < 15 && !exit; i++) {
 			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 				ver = ver + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-		for (int i = ultimaCasilla[1] - 1; i >= 0; i--) {
+		exit = false;
+		for (int i = ultimaCasilla[1] - 1; i >= 0 && !exit; i--) {
 			if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 				ver = ver + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		int j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 0) {
 				j--;
 			}
@@ -57,24 +61,24 @@ public class Ia extends Jugador {
 			if (tablero[j][i].equals(ficha)) {
 				dia1 = dia1 + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 14) {
 				j++;
 			}
 			if (tablero[j][i].equals(ficha)) {
 				dia1 = dia1 + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 14) {
 				j++;
 			}
@@ -82,25 +86,26 @@ public class Ia extends Jugador {
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {
-				i = 15;
+				exit = true;
 			}
 		}
-
+		exit = false;
 		j = ultimaCasilla[1];
-		for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 0) {
 				j--;
 			}
 			if (tablero[j][i].equals(ficha)) {
 				dia2 = dia2 + 1;
 			} else {
-				i = -1;
+				exit = true;
 			}
 		}
+		exit = false;
 
 		if (hor >= 3 || ver >= 3 || dia1 >= 3 || dia2 >= 3) {
-			if (hor >= 3 && hor >= ver) { //programar que tenga prioridades segun situación
-				for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+			if (hor >= 3 && hor >= ver && hor >= dia1 && hor >= dia2) { //programar que tenga prioridades segun situación
+				for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 					if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[ultimaCasilla[1]][i].equals(".")) {
@@ -108,10 +113,11 @@ public class Ia extends Jugador {
 							values[1] = ultimaCasilla[1];
 							decision = true;
 						}
-						i = 15;
+						exit = true;
 					}
 				}
-				for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+				exit = false;
+				for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 					if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[ultimaCasilla[1]][i].equals(".")) {
@@ -119,12 +125,12 @@ public class Ia extends Jugador {
 							values[1] = ultimaCasilla[1];
 							decision = true;
 						}
-						i = -1;
+						exit = true;
 					}
 				}
-
+				exit = false;
 			}
-			if (ver >= 3 && !decision) {
+			if (ver >= 3 && !decision && ver >= hor && ver >= dia1 && ver >= dia2) {
 				for (int i = ultimaCasilla[1]; i < 15; i++) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
@@ -133,9 +139,10 @@ public class Ia extends Jugador {
 							values[0] = ultimaCasilla[0];
 							decision = true;
 						}
-						i = 15;
+						exit = true;
 					}
 				}
+				exit = false;
 				for (int i = ultimaCasilla[1]; i >= 0; i--) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
@@ -144,14 +151,15 @@ public class Ia extends Jugador {
 							values[1] = i;
 							decision = true;
 						}
-						i = -1;
+						exit = true;
 					}
 				}
+				exit = false;
 			}
 
-			if (dia1 >= 3 && !decision) {
+			if (dia1 >= 3 && !decision && dia1 >= hor && dia1 >= ver && dia1 >= dia2) {
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0]; i < 15; i++) {
+				for (int i = ultimaCasilla[0]; i < 15 && !exit; i++) {
 					if (tablero[j][i].equals(ficha)) {
 
 					} else {
@@ -165,12 +173,13 @@ public class Ia extends Jugador {
 							values[1] = j;
 							decision = true;
 						}
-						i = 15;
+						exit = true;
 					}
 				}
+				exit = false;
 
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+				for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (i <= 12 && j >= 1) {
@@ -182,13 +191,14 @@ public class Ia extends Jugador {
 							values[1] = j;
 							decision = true;
 						}
-						i = -1;
+						exit = true;
 					}
 				}
+				exit = false;
 			}
-			if (dia2 >= 3 && !decision) {
+			if (dia2 >= 3 && !decision && dia2 >= hor && dia2 >= ver && dia2 >= dia1) {
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0] + 1; i < 15; i++) {
+				for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (j <= 13) {
@@ -200,12 +210,12 @@ public class Ia extends Jugador {
 							values[1] = j;
 							decision = true;
 						}
-						i = 15;
+						exit = true;
 					}
 				}
-
+				exit = false;
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0] - 1; i >= 0; i--) {
+				for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (j >= 1) {
@@ -217,9 +227,10 @@ public class Ia extends Jugador {
 							values[1] = j;
 							decision = true;
 						}
-						i = -1;
+						exit = true;
 					}
 				}
+				exit = false;
 			}
 			if (!decision) {
 				values[0] = random.nextInt(15);
