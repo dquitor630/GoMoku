@@ -1,5 +1,6 @@
 package goMoku;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Partida {
@@ -8,6 +9,8 @@ public class Partida {
 	private Jugador jugador2;
 	private Tablero tablero;
 	private int numTurno;
+	Scanner keyboard = new Scanner(System.in);
+	ConsoleInput consoleIn = new ConsoleInput(keyboard);
 
 	Partida(Jugador jugador1, Jugador jugador2, Tablero tablero) {
 		this.jugador1 = jugador1;
@@ -27,7 +30,7 @@ public class Partida {
 						jugador1.getClass().getSimpleName());
 			} while (!exit);
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -35,6 +38,12 @@ public class Partida {
 			if (tablero.isTerminado()) {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador1.getNombre());
+				System.out.println("¿Volver a jugar? s/n");
+				if (consoleIn.readBooleanUsingChar('s', 'n')) {
+					game = false;
+					numTurno = 0;
+					tablero = new Tablero();
+				}
 			} else {
 				numTurno = numTurno + 1;
 				exit = false;
@@ -47,9 +56,15 @@ public class Partida {
 			if (tablero.isTerminado() && game != true) {
 				game = true;
 				System.out.println("Ha ganado el jugador " + jugador2.getNombre());
+				System.out.println("¿Volver a jugar? s/n");
+				if (consoleIn.readBooleanUsingChar('s', 'n')) {
+					game = false;
+					numTurno = 0;
+					tablero = new Tablero();
+				}
 			}
 			try {
-				TimeUnit.SECONDS.sleep(1);
+				TimeUnit.SECONDS.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

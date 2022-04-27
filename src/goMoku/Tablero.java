@@ -104,9 +104,11 @@ public class Tablero {
 		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 0) {
 				j--;
+			} else {
+				exit = true;
 			}
 
-			if (tablero[j][i].equals(ficha)) {
+			if (tablero[j][i].equals(ficha) && !exit) {
 				dia1 = dia1 + 1;
 			} else {
 				exit = true;
@@ -117,8 +119,10 @@ public class Tablero {
 		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 14) {
 				j++;
+			} else {
+				exit = true;
 			}
-			if (tablero[j][i].equals(ficha)) {
+			if (tablero[j][i].equals(ficha) && !exit) {
 				dia1 = dia1 + 1;
 			} else {
 				exit = true;
@@ -129,9 +133,11 @@ public class Tablero {
 		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (j != 14) {
 				j++;
+			} else {
+				exit = true;
 			}
 
-			if (tablero[j][i].equals(ficha)) {
+			if (tablero[j][i].equals(ficha) && !exit) {
 				dia2 = dia2 + 1;
 			} else {
 				exit = true;
@@ -142,8 +148,10 @@ public class Tablero {
 		for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
 			if (j != 0) {
 				j--;
+			} else {
+				exit = true;
 			}
-			if (tablero[j][i].equals(ficha)) {
+			if (tablero[j][i].equals(ficha) && !exit) {
 				dia2 = dia2 + 1;
 			} else {
 				exit = true;
