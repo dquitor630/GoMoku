@@ -10,6 +10,7 @@ public class Tablero {
 	Scanner keyboard = new Scanner(System.in);
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
 	private boolean terminado;
+	private Opciones opciones;
 
 	public boolean isTerminado() {
 		return terminado;
@@ -17,12 +18,14 @@ public class Tablero {
 
 	public int[] ultimaCasilla = new int[2];
 
-	Tablero() {
+	//un constructor es para pasarle por primera vez las opciones y ya no tener que pasarlas otra vez
+	Tablero(Opciones opciones) {
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[i].length; j++) {
 				tablero[i][j] = ".";
 			}
 		}
+		this.opciones = opciones;
 	}
 
 	public boolean modificarTablero(int[] coord, String ficha, String className) {
@@ -30,18 +33,26 @@ public class Tablero {
 		//esto es boolean para verificar que la ficha se ponga correctamente, esto se llamara desde un do while
 		if (tablero[coord[1]][coord[0]].equals(".")) { //esto lo hago para verificar que esa casilla no esta utilizada
 			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
-				tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
-				pintarTablero();
-				System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
-				if (consoleIn.readBooleanUsingChar('s', 'n')) {
+				if (opciones.isConfirmacion()) {
+					tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
+					pintarTablero();
+					System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
+					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+						ultimaCasilla[0] = coord[0];
+						ultimaCasilla[1] = coord[1];
+						verificarVictoria();
+					} else {
+						tablero[coord[1]][coord[0]] = ".";
+						valid = false;
+					}
+				} else {
 					tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
 					ultimaCasilla[0] = coord[0];
 					ultimaCasilla[1] = coord[1];
 					verificarVictoria();
-				} else {
-					tablero[coord[1]][coord[0]] = ".";
-					valid = false;
 				}
+
 			} else {
 				tablero[coord[1]][coord[0]] = ficha;
 				ultimaCasilla[0] = coord[0];

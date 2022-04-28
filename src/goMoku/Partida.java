@@ -9,13 +9,17 @@ public class Partida {
 	private Jugador jugador2;
 	private Tablero tablero;
 	private int numTurno;
+	@SuppressWarnings("unused")
+	private Opciones opciones;
 	Scanner keyboard = new Scanner(System.in);
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
 
-	Partida(Jugador jugador1, Jugador jugador2, Tablero tablero) {
+	Partida(Jugador jugador1, Jugador jugador2, Opciones opciones) {
 		this.jugador1 = jugador1;
 		this.jugador2 = jugador2;
-		this.tablero = tablero;
+		this.opciones = opciones;
+		this.tablero = new Tablero(opciones);
+		tablero.pintarTablero();
 		juego();
 	}
 
@@ -42,7 +46,8 @@ public class Partida {
 				if (consoleIn.readBooleanUsingChar('s', 'n')) {
 					game = false;
 					numTurno = 0;
-					tablero = new Tablero();
+					tablero = new Tablero(opciones);
+					tablero.pintarTablero();
 				}
 			} else {
 				numTurno = numTurno + 1;
@@ -60,7 +65,8 @@ public class Partida {
 				if (consoleIn.readBooleanUsingChar('s', 'n')) {
 					game = false;
 					numTurno = 0;
-					tablero = new Tablero();
+					tablero = new Tablero(opciones);
+					tablero.pintarTablero();
 				}
 			}
 			try {
