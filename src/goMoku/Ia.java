@@ -3,13 +3,20 @@ package goMoku;
 import java.util.Random;
 
 public class Ia extends Jugador {
+	private int[] ultimoAtaque = new int[2];
+	private int[] ataqueInicial = new int[2];
+	private int lado1 = 0;
+	private int lado2 = 0;
+	private int cantidadAtaque = 0;
+	private String tipoAtaque = "";
+	int numOpciones = 0;
+
 	Ia(int numJugador) {
 		super(numJugador, BaseDeDatos.INSTANCE.getRandomName());
 	}
 
 	protected int[] indicarCoordenada(Tablero tableroOriginal) {
 		int[] values = new int[2];
-
 		int hor = 1;
 		int ver = 1;
 		int dia1 = 1;
@@ -109,6 +116,9 @@ public class Ia extends Jugador {
 				exit = true;
 			}
 		}
+		if (cantidadAtaque == 4) {
+
+		}
 		exit = false;
 		if (hor == 1 || ver == 1 || dia1 == 1 || dia2 == 1) {
 
@@ -146,7 +156,7 @@ public class Ia extends Jugador {
 				exit = false;
 			}
 			if (ver == 1 && !decision && ver >= hor && ver >= dia1 && ver >= dia2) {
-				for (int i = ultimaCasilla[1]; i < 15; i++) {
+				for (int i = ultimaCasilla[1]; i < 15 && !exit; i++) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".") && i < 13) {
@@ -162,7 +172,7 @@ public class Ia extends Jugador {
 					}
 				}
 				exit = false;
-				for (int i = ultimaCasilla[1]; i >= 0; i--) {
+				for (int i = ultimaCasilla[1]; i >= 0 && !exit; i--) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".") && i > 1) {
@@ -296,7 +306,7 @@ public class Ia extends Jugador {
 			}
 
 			if (ver == 2 && !decision && ver >= hor && ver >= dia1 && ver >= dia2) {
-				for (int i = ultimaCasilla[1]; i < 15; i++) {
+				for (int i = ultimaCasilla[1]; i < 15 && !exit; i++) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".") && i != 14) {
@@ -311,7 +321,7 @@ public class Ia extends Jugador {
 					}
 				}
 				exit = false;
-				for (int i = ultimaCasilla[1]; i >= 0; i--) {
+				for (int i = ultimaCasilla[1]; i >= 0 && !exit; i--) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".") && i != 0) {
@@ -437,7 +447,7 @@ public class Ia extends Jugador {
 				exit = false;
 			}
 			if (ver >= 3 && !decision && ver >= hor && ver >= dia1 && ver >= dia2) {
-				for (int i = ultimaCasilla[1]; i < 15; i++) {
+				for (int i = ultimaCasilla[1]; i < 15 && !exit; i++) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".")) {
@@ -449,7 +459,7 @@ public class Ia extends Jugador {
 					}
 				}
 				exit = false;
-				for (int i = ultimaCasilla[1]; i >= 0; i--) {
+				for (int i = ultimaCasilla[1]; i >= 0 && !exit; i--) {
 					if (tablero[i][ultimaCasilla[0]].equals(ficha)) {
 					} else {
 						if (!decision && tablero[i][ultimaCasilla[0]].equals(".")) {
@@ -538,21 +548,136 @@ public class Ia extends Jugador {
 				}
 				exit = false;
 			}
-			if (!decision) {
-				values[0] = random.nextInt(15);
-				values[1] = random.nextInt(15);
-			}
-		} else {
-			if (!decision) {
-				values[0] = random.nextInt(15);
-				values[1] = random.nextInt(15);
-			}
-
 		}
+		if (!decision) {
+			do {
+				if (tipoAtaque.equals("")) {
+					hor = 1;
+					exit = false;
+					do {
+						values[0] = random.nextInt(15);
+						values[1] = random.nextInt(15);
+						lado1 = 0;
+						lado2 = 0;
+						for (int i = values[0]; i <= 14 && !exit; i++) {
+							if (tablero[1][i].equals(".") && hor < 5) {
+								hor = hor + 1;
+								lado1 = lado1 + 1;
+							} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
+								hor = hor + 1;
+								lado1 = lado1 + 1;
+							} else {
+								exit = true;
+							}
+						}
+						exit = false;
+						for (int i = values[0]; i >= 0 && hor < 5; i--) {
+							if (tablero[1][i].equals(".") && hor < 5) {
+								hor = hor + 1;
+								lado2 = lado2 + 1;
+							} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
+								hor = hor + 1;
+								lado2 = lado2 + 1;
+							} else {
+								exit = true;
+							}
+						}
+						exit = false;
+						if (hor >= 5) {
+							decision = true;
+							tipoAtaque = "hor";
+							cantidadAtaque++;
+							ultimoAtaque[0] = values[0];
+							ultimoAtaque[1] = values[1];
+							ataqueInicial[0] = values[0];
+							ataqueInicial[1] = values[1];
+						}
+					} while (!decision);
+				} else {
+					switch (tipoAtaque) {
+					case "hor":
+						if (ultimoAtaque[0] != 14) {
+							if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(".")
+									|| tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(this.getFicha())
+											&& lado1 > 0 && !decision) {
+								if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(this.getFicha())) {
+									if (lado1 == 2) {
+										lado1 = lado1 - 2;
+										if (ultimoAtaque[0] != 13) {
+											if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 2].equals(".")) {
+												values[1] = ultimoAtaque[1];
+												values[0] = ultimoAtaque[0] + 2;
+												ultimoAtaque[0] = values[0];
+												ultimoAtaque[1] = values[1];
+												decision = true;
+
+											}
+										}
+
+									}
+								} else {
+									values[1] = ultimoAtaque[1];
+									values[0] = ultimoAtaque[0] + 1;
+									ultimoAtaque[0] = values[0];
+									ultimoAtaque[1] = values[1];
+									lado1--;
+									decision = true;
+								}
+
+								if (lado1 == 0) {
+									ultimoAtaque[0] = ataqueInicial[0];
+									ultimoAtaque[1] = ataqueInicial[1];
+								}
+
+							}
+
+						}
+						if (ultimoAtaque[0] != 0) {
+							if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(".")
+									|| tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(this.getFicha())
+											&& lado2 > 0 && !decision) {
+								if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(this.getFicha())) {
+									if (lado2 == 2) {
+										if (ultimoAtaque[0] > 1) {
+											if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 2].equals(this.getFicha())) {
+												lado2 = lado2 - 2;
+												values[1] = ultimoAtaque[1];
+												values[0] = ultimoAtaque[0] - 2;
+												ultimoAtaque[0] = values[0];
+												ultimoAtaque[1] = values[1];
+												decision = true;
+											}
+										}
+
+									}
+								} else {
+									values[1] = ultimoAtaque[1];
+									values[0] = ultimoAtaque[0] - 1;
+									ultimoAtaque[0] = values[0];
+									ultimoAtaque[1] = values[1];
+									lado2--;
+									decision = true;
+								}
+							}
+						}
+						if (decision) {
+							cantidadAtaque++;
+						}
+						if (!decision) {
+							tipoAtaque = "";
+							cantidadAtaque = 0;
+						}
+						break;
+					}
+				}
+			} while (!decision);
+		}
+		decision = false;
 		/*Random random = new Random();
 		values[0] = random.nextInt(15);
 		values[1] = random.nextInt(15);
 		*/
 		return values;
 	}
+
 }

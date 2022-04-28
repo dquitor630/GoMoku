@@ -24,50 +24,18 @@ public class Partida {
 	}
 
 	private void juego() {
+		//optimizar codigo utilizando metodos para los jugadores y eso
 		boolean exit = false;
 		boolean game = false;
 		do {
-			numTurno = numTurno + 1;
-			System.out.println("Turno " + numTurno + ", Jugador " + jugador1.getNombre());
-			do {
-				exit = tablero.modificarTablero(jugador1.indicarCoordenada(tablero), jugador1.getFicha(),
-						jugador1.getClass().getSimpleName());
-			} while (!exit);
-			try {
-				TimeUnit.SECONDS.sleep(0);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			turno(jugador1);
 			if (tablero.isTerminado()) {
-				game = true;
-				System.out.println("Ha ganado el jugador " + jugador1.getNombre());
-				System.out.println("¿Volver a jugar? s/n");
-				if (consoleIn.readBooleanUsingChar('s', 'n')) {
-					game = false;
-					numTurno = 0;
-					tablero = new Tablero(opciones);
-					tablero.pintarTablero();
-				}
+				game = victoria(jugador1);
 			} else {
-				numTurno = numTurno + 1;
-				exit = false;
-				System.out.println("Turno " + numTurno + ", Jugador " + jugador2.getNombre());
-				do {
-					exit = tablero.modificarTablero(jugador2.indicarCoordenada(tablero), jugador2.getFicha(),
-							jugador2.getClass().getSimpleName());
-				} while (!exit);
+				turno(jugador2);
 			}
 			if (tablero.isTerminado() && game != true) {
-				game = true;
-				System.out.println("Ha ganado el jugador " + jugador2.getNombre());
-				System.out.println("¿Volver a jugar? s/n");
-				if (consoleIn.readBooleanUsingChar('s', 'n')) {
-					game = false;
-					numTurno = 0;
-					tablero = new Tablero(opciones);
-					tablero.pintarTablero();
-				}
+				game = victoria(jugador2);
 			}
 			try {
 				TimeUnit.SECONDS.sleep(0);
@@ -78,5 +46,37 @@ public class Partida {
 		} while (!game);
 	}
 
+	private boolean victoria(Jugador jugador) {
+		boolean game = false;
+		if (tablero.isTerminado()) {
+			game = true;
+			System.out.println("Ha ganado el jugador " + jugador.getNombre());
+			System.out.println("¿Volver a jugar? s/n");
+			if (consoleIn.readBooleanUsingChar('s', 'n')) {
+				game = false;
+				numTurno = 0;
+				tablero = new Tablero(opciones);
+				tablero.pintarTablero();
+			}
+		}
+		return game;
+	}
+
+	private void turno(Jugador jugador) {
+		numTurno = numTurno + 1;
+		boolean exit;
+		System.out.println("Turno " + numTurno + ", Jugador " + jugador.getNombre());
+		do {
+			exit = tablero.modificarTablero(jugador.indicarCoordenada(tablero), jugador.getFicha(),
+					jugador.getClass().getSimpleName());
+		} while (!exit);
+		try {
+			TimeUnit.SECONDS.sleep(0);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	//programar mensaje de derrota si es una ia
 }
