@@ -30,6 +30,15 @@ public class Tablero {
 
 	public boolean modificarTablero(int[] coord, String ficha, String className) {
 		boolean valid = true;
+		String fichaRival = "";
+		if (ficha.equals(Ficha.FICHA1.getFicha())) {
+			fichaRival = Ficha.FICHA2.getFicha();
+		} else {
+			fichaRival = Ficha.FICHA1.getFicha();
+		}
+		if (tablero[ultimaCasilla[1]][ultimaCasilla[0]].equals(".")) {
+			fichaRival = ".";
+		}
 		//esto es boolean para verificar que la ficha se ponga correctamente, esto se llamara desde un do while
 		if (tablero[coord[1]][coord[0]].equals(".")) { //esto lo hago para verificar que esa casilla no esta utilizada
 			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
@@ -38,7 +47,8 @@ public class Tablero {
 					pintarTablero();
 					System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
-						tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+						tablero[ultimaCasilla[1]][ultimaCasilla[0]] = fichaRival;
+						tablero[coord[1]][coord[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
 						ultimaCasilla[0] = coord[0];
 						ultimaCasilla[1] = coord[1];
 						verificarVictoria();
@@ -47,14 +57,16 @@ public class Tablero {
 						valid = false;
 					}
 				} else {
-					tablero[coord[1]][coord[0]] = ficha; //poner ficha ya de su color
+					tablero[ultimaCasilla[1]][ultimaCasilla[0]] = fichaRival;
+					tablero[coord[1]][coord[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET; //poner ficha ya de su color
 					ultimaCasilla[0] = coord[0];
 					ultimaCasilla[1] = coord[1];
 					verificarVictoria();
 				}
 
 			} else {
-				tablero[coord[1]][coord[0]] = ficha;
+				tablero[ultimaCasilla[1]][ultimaCasilla[0]] = fichaRival;
+				tablero[coord[1]][coord[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
 				ultimaCasilla[0] = coord[0];
 				ultimaCasilla[1] = coord[1];
 				verificarVictoria();
@@ -75,6 +87,11 @@ public class Tablero {
 		int dia1 = 1;
 		int dia2 = 1;
 		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
+		if (ficha.substring(5, 6).equals(Ficha.FICHA1.getFicha().substring(5, 6))) {
+			ficha = Ficha.FICHA1.getFicha();
+		} else {
+			ficha = Ficha.FICHA2.getFicha();
+		}
 		//esto deberia hacerlo con do while creo, porque realmente no se las veces que 
 		//voy a iterar, pero a la vez debo ponerle un limite
 		//igual es mejor simplemente poner un if dentro de un do while
@@ -171,7 +188,7 @@ public class Tablero {
 		exit = false;
 		if (hor >= 5 || ver >= 5 || dia1 >= 5 || dia2 >= 5) {
 			terminado = true;
-			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
+			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.CYAN + ficha.substring(5, 6) + Colors.RESET;
 			return true;
 		} else {
 			return false;

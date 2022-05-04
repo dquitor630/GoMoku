@@ -25,7 +25,6 @@ public class Partida {
 
 	private void juego() {
 		//optimizar codigo utilizando metodos para los jugadores y eso
-		boolean exit = false;
 		boolean game = false;
 		do {
 			turno(jugador1);
@@ -64,7 +63,7 @@ public class Partida {
 					jugador.getClass().getSimpleName());
 		} while (!exit);
 		try {
-			TimeUnit.SECONDS.sleep(0);
+			TimeUnit.SECONDS.sleep(opciones.getRetrasoConsola());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

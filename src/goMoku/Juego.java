@@ -79,8 +79,8 @@ public class Juego {
 			case 4:
 				do {
 					System.out.println("Menú de opciones:\n" + "1. Activar/Desactivar confirmación de coordenada\n"
-							+ "2. Salir al menú principal");
-					opcion = consoleIn.readByteInRange((byte) 1, (byte) 2);
+							+ "2. Activar/Desactivar retraso de la consola\n" + "3. Salir al menú principal");
+					opcion = consoleIn.readByteInRange((byte) 1, (byte) 3);
 					switch (opcion) {
 					case 1:
 						if (opciones.isConfirmacion()) {
@@ -92,6 +92,16 @@ public class Juego {
 						}
 						break;
 					case 2:
+						if (opciones.getRetrasoConsola() == 1) {
+							opciones.setRetrasoConsola(0);
+							System.out.println("Retraso Desactivado");
+						} else {
+							opciones.setRetrasoConsola(1);
+							System.out.println("Retraso Activado");
+						}
+						//añadir modo para daltónicos
+						break;
+					case 3:
 						exit = true;
 					}
 				} while (!exit);

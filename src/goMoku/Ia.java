@@ -20,6 +20,7 @@ public class Ia extends Jugador {
 		int ver = 1;
 		int dia1 = 1;
 		int dia2 = 1;
+		int storedRandom = 0;
 		boolean nAtaque = true;
 		boolean decision = false;
 		int[] ataqueInicial = new int[2];
@@ -27,9 +28,17 @@ public class Ia extends Jugador {
 		int[] ultimaCasilla = tableroOriginal.getUltimaCasilla();
 		String[][] tablero = tableroOriginal.getTablero();
 		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
+		String fichaVerde = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
 		boolean exit = false;
+		if (!(ficha.equals("."))) {
+			if (ficha.substring(5, 6).equals(Ficha.FICHA1.getFicha().substring(5, 6))) {
+				ficha = Ficha.FICHA1.getFicha();
+			} else {
+				ficha = Ficha.FICHA2.getFicha();
+			}
+		}
 		if (!(rangoAtaque.size() == 0)) {
-			nAtaque = validarAtaque(tableroOriginal, ultimaCasilla, ficha);
+			nAtaque = validarAtaque(tableroOriginal, ultimaCasilla, ficha, fichaVerde);
 		}
 
 		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
@@ -555,43 +564,23 @@ public class Ia extends Jugador {
 		}
 		if (!decision) {
 			hor = 1;
+			ver = 1;
 			do {
 				if (nAtaque) {
-					hor = 1;
 					rangoAtaque.clear();
 					values[0] = random.nextInt(15);
 					values[1] = random.nextInt(15);
+					hor = 1;
+					ver = 1;
 					lado1 = 0;
 					lado2 = 0;
-					for (int i = values[0] + 1; i <= 14 && !exit; i++) {
-						if (tablero[1][i].equals(".") && hor < 5) {
-							if (i < 15) {
-								hor = hor + 1;
-								lado1 = lado1 + 1;
-							}
-						} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
-							if (i < 15) {
-								hor = hor + 1;
-								lado1 = lado1 + 1;
-							}
-						} else {
-							exit = true;
-						}
-					}
-					exit = false;
-					for (int i = values[0] - 1; i >= 0 && hor < 5; i--) {
-						if (tablero[1][i].equals(".") && hor < 5) {
-							hor = hor + 1;
-							lado2 = lado2 + 1;
-						} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
-							hor = hor + 1;
-							lado2 = lado2 + 1;
-						} else {
-							exit = true;
-						}
-					}
-					exit = false;
+					hor = validarHorizontal(values, hor, tablero);
+
 					if (hor >= 5) {
+						lado1 = 0;
+						lado2 = 0;
+						hor = 1;
+						validarHorizontal(values, hor, tablero);
 						ataqueInicial[0] = values[0];
 						ataqueInicial[1] = values[1];
 						rangoAtaque.add(values);
@@ -618,9 +607,9 @@ public class Ia extends Jugador {
 					}
 				} else {
 					do {
-						values[1] = rangoAtaque.get(0)[1];
-						System.out.println(rangoAtaque.get(random.nextInt(rangoAtaque.size()))[0]);
-						values[0] = rangoAtaque.get(random.nextInt(rangoAtaque.size()))[0];
+						storedRandom = random.nextInt(rangoAtaque.size());
+						values[1] = rangoAtaque.get(storedRandom)[1];
+						values[0] = rangoAtaque.get(storedRandom)[0];
 						if (tablero[values[1]][values[0]].equals(this.getFicha())) {
 							exit = false;
 						} else {
@@ -642,15 +631,82 @@ public class Ia extends Jugador {
 		return values;
 	}
 
-	public boolean validarAtaque(Tablero tablero, int[] ultimaCasilla, String ficha) {
+	public boolean validarAtaque(Tablero tablero, int[] ultimaCasilla, String ficha, String fichaVerde) {
 		boolean result = false;
 		for (int i = 0; i < rangoAtaque.size() && !result; i++) {
 			System.out.println(rangoAtaque.get(i)[0]);
-			if (tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(ficha)) {
+			if (tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(ficha)
+					|| tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(fichaVerde)) {
 				result = true;
 			}
 		}
 		return result;
+	}
+
+	public int validarHorizontal(int[] values, int hor, String[][] tablero) {
+		boolean exit = false;
+		for (int i = values[0] + 1; i <= 14 && !exit; i++) {
+			if (tablero[values[1]][i].equals(".") && hor < 5) {
+				if (i < 15) {
+					hor = hor + 1;
+					lado1 = lado1 + 1;
+				}
+			} else if (tablero[values[1]][i].equals(this.getFicha()) && hor < 5) {
+				if (i < 15) {
+					hor = hor + 1;
+					lado1 = lado1 + 1;
+				}
+			} else {
+				exit = true;
+			}
+		}
+		exit = false;
+		for (int i = values[0] - 1; i >= 0 && hor < 5; i--) {
+			if (tablero[values[1]][i].equals(".") && hor < 5) {
+				hor = hor + 1;
+				lado2 = lado2 + 1;
+			} else if (tablero[values[1]][i].equals(this.getFicha()) && hor < 5) {
+				hor = hor + 1;
+				lado2 = lado2 + 1;
+			} else {
+				exit = true;
+			}
+		}
+		exit = false;
+		return hor;
+	}
+
+	public int validarVertical(int[] values, int ver, String[][] tablero) {
+		boolean exit = false;
+		for (int i = values[0] + 1; i <= 14 && !exit; i++) {
+			if (tablero[values[1]][i].equals(".") && ver < 5) {
+				if (i < 15) {
+					ver = ver + 1;
+					lado1 = lado1 + 1;
+				}
+			} else if (tablero[values[1]][i].equals(this.getFicha()) && ver < 5) {
+				if (i < 15) {
+					ver = ver + 1;
+					lado1 = lado1 + 1;
+				}
+			} else {
+				exit = true;
+			}
+		}
+		exit = false;
+		for (int i = values[0] - 1; i >= 0 && ver < 5; i--) {
+			if (tablero[values[1]][i].equals(".") && ver < 5) {
+				ver = ver + 1;
+				lado2 = lado2 + 1;
+			} else if (tablero[values[1]][i].equals(this.getFicha()) && ver < 5) {
+				ver = ver + 1;
+				lado2 = lado2 + 1;
+			} else {
+				exit = true;
+			}
+		}
+		exit = false;
+		return ver;
 	}
 
 	public void ataque() {
