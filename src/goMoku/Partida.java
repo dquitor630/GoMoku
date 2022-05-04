@@ -51,13 +51,6 @@ public class Partida {
 		if (tablero.isTerminado()) {
 			game = true;
 			System.out.println("Ha ganado el jugador " + jugador.getNombre());
-			System.out.println("¿Volver a jugar? s/n");
-			if (consoleIn.readBooleanUsingChar('s', 'n')) {
-				game = false;
-				numTurno = 0;
-				tablero = new Tablero(opciones);
-				tablero.pintarTablero();
-			}
 		}
 		return game;
 	}

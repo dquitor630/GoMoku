@@ -10,11 +10,12 @@ public class Juego {
 		ConsoleInput consoleIn = new ConsoleInput(keyboard);
 		Opciones opciones = new Opciones();
 		byte opcion;
+		Jugador ia1 = new Ia(1);
+		Jugador ia2 = new Ia(2);
+		Jugador persona = new Persona(1, "null");
+		Jugador persona2 = new Persona(2, "null");
+		boolean game = false;
 		do {
-			Jugador ia1 = new Ia(1);
-			Jugador ia2 = new Ia(2);
-			Jugador persona = new Persona(1, "null");
-			Jugador persona2 = new Persona(2, "null");
 			//estaría interesante tirar una moneda para ver quien empieza primero
 			System.out.println("   _____  ____    __  __  ____  _  ___    _  \r\n"
 					+ "  / ____|/ __ \\  |  \\/  |/ __ \\| |/ / |  | | \r\n"
@@ -33,17 +34,47 @@ public class Juego {
 				persona2 = new Persona(2, consoleIn.readString());
 				@SuppressWarnings("unused")
 				Partida partida = new Partida(persona, persona2, opciones);
+				do {
+					System.out.println("¿Volver a jugar? s/n");
+					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						partida = new Partida(persona, persona2, opciones);
+						game = false;
+					} else {
+						game = true;
+					}
+				} while (!game);
+
 				break;
 			case 2:
 				System.out.println("introduce el nombre para el jugador: ");
 				persona = new Persona(1, consoleIn.readString());
 				ia1 = new Ia(2);
 				partida = new Partida(persona, ia1, opciones);
+				game = false;
+				do {
+					System.out.println("¿Volver a jugar? s/n");
+					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						partida = new Partida(persona, ia1, opciones);
+						game = false;
+					} else {
+						game = true;
+					}
+				} while (!game);
 				break;
 			case 3:
 				ia1 = new Ia(1);
 				ia2 = new Ia(2);
 				partida = new Partida(ia1, ia2, opciones);
+				game = false;
+				do {
+					System.out.println("¿Volver a jugar? s/n");
+					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						partida = new Partida(ia1, ia2, opciones);
+						game = false;
+					} else {
+						game = true;
+					}
+				} while (!game);
 				break;
 			case 4:
 				do {
@@ -69,6 +100,10 @@ public class Juego {
 			}
 
 		} while (!exit);
+
+	}
+
+	public void crearPartida(Jugador jugador1, Jugador jugador2, Opciones opciones) {
 
 	}
 

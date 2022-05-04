@@ -1,15 +1,14 @@
 package goMoku;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Ia extends Jugador {
-	private int[] ultimoAtaque = new int[2];
-	private int[] ataqueInicial = new int[2];
 	private int lado1 = 0;
 	private int lado2 = 0;
-	private int cantidadAtaque = 0;
-	private String tipoAtaque = "";
 	int numOpciones = 0;
+	private ArrayList<int[]> rangoAtaque = new ArrayList<>();
 
 	Ia(int numJugador) {
 		super(numJugador, BaseDeDatos.INSTANCE.getRandomName());
@@ -21,12 +20,18 @@ public class Ia extends Jugador {
 		int ver = 1;
 		int dia1 = 1;
 		int dia2 = 1;
+		boolean nAtaque = true;
 		boolean decision = false;
+		int[] ataqueInicial = new int[2];
 		Random random = new Random();
 		int[] ultimaCasilla = tableroOriginal.getUltimaCasilla();
 		String[][] tablero = tableroOriginal.getTablero();
 		String ficha = tablero[ultimaCasilla[1]][ultimaCasilla[0]];
 		boolean exit = false;
+		if (!(rangoAtaque.size() == 0)) {
+			nAtaque = validarAtaque(tableroOriginal, ultimaCasilla, ficha);
+		}
+
 		for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
 			if (tablero[ultimaCasilla[1]][i].equals(ficha)) {
 				hor = hor + 1;
@@ -116,9 +121,7 @@ public class Ia extends Jugador {
 				exit = true;
 			}
 		}
-		if (cantidadAtaque == 4) {
 
-		}
 		exit = false;
 		if (hor == 1 || ver == 1 || dia1 == 1 || dia2 == 1) {
 
@@ -514,7 +517,7 @@ public class Ia extends Jugador {
 			}
 			if (dia2 >= 3 && !decision && dia2 >= hor && dia2 >= ver && dia2 >= dia1) {
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0] + 1; i < 15 && !exit; i++) {
+				for (int i = ultimaCasilla[0]; i < 15 && !exit; i++) {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (j <= 13) {
@@ -531,7 +534,7 @@ public class Ia extends Jugador {
 				}
 				exit = false;
 				j = ultimaCasilla[1];
-				for (int i = ultimaCasilla[0] - 1; i >= 0 && !exit; i--) {
+				for (int i = ultimaCasilla[0]; i >= 0 && !exit; i--) {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (j >= 1) {
@@ -548,8 +551,110 @@ public class Ia extends Jugador {
 				}
 				exit = false;
 			}
+
 		}
 		if (!decision) {
+			hor = 1;
+			do {
+				if (nAtaque) {
+					hor = 1;
+					rangoAtaque.clear();
+					values[0] = random.nextInt(15);
+					values[1] = random.nextInt(15);
+					lado1 = 0;
+					lado2 = 0;
+					for (int i = values[0] + 1; i <= 14 && !exit; i++) {
+						if (tablero[1][i].equals(".") && hor < 5) {
+							if (i < 15) {
+								hor = hor + 1;
+								lado1 = lado1 + 1;
+							}
+						} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
+							if (i < 15) {
+								hor = hor + 1;
+								lado1 = lado1 + 1;
+							}
+						} else {
+							exit = true;
+						}
+					}
+					exit = false;
+					for (int i = values[0] - 1; i >= 0 && hor < 5; i--) {
+						if (tablero[1][i].equals(".") && hor < 5) {
+							hor = hor + 1;
+							lado2 = lado2 + 1;
+						} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
+							hor = hor + 1;
+							lado2 = lado2 + 1;
+						} else {
+							exit = true;
+						}
+					}
+					exit = false;
+					if (hor >= 5) {
+						ataqueInicial[0] = values[0];
+						ataqueInicial[1] = values[1];
+						rangoAtaque.add(values);
+						for (int i = 1; i <= lado1; i++) {
+							if (i > lado1) {
+
+							} else {
+								values[0] = ataqueInicial[0] + i;
+								rangoAtaque.add(Arrays.copyOf(values, 2));
+							}
+
+						}
+						for (int i = lado2; i > 0; i--) {
+							values[0] = ataqueInicial[0] - i;
+							rangoAtaque.add(Arrays.copyOf(values, 2));
+						}
+						if (rangoAtaque.size() < 5) {
+							System.out.println();
+						}
+						values[0] = ataqueInicial[0];
+						values[1] = ataqueInicial[1];
+						decision = true;
+						nAtaque = false;
+					}
+				} else {
+					do {
+						values[1] = rangoAtaque.get(0)[1];
+						System.out.println(rangoAtaque.get(random.nextInt(rangoAtaque.size()))[0]);
+						values[0] = rangoAtaque.get(random.nextInt(rangoAtaque.size()))[0];
+						if (tablero[values[1]][values[0]].equals(this.getFicha())) {
+							exit = false;
+						} else {
+							exit = true;
+							decision = true;
+						}
+
+					} while (!exit);
+					exit = false;
+				}
+			} while (!decision);
+		}
+
+		decision = false;
+		/*Random random = new Random();
+		values[0] = random.nextInt(15);
+		values[1] = random.nextInt(15);
+		*/
+		return values;
+	}
+
+	public boolean validarAtaque(Tablero tablero, int[] ultimaCasilla, String ficha) {
+		boolean result = false;
+		for (int i = 0; i < rangoAtaque.size() && !result; i++) {
+			System.out.println(rangoAtaque.get(i)[0]);
+			if (tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(ficha)) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	public void ataque() {
+		/* if (!decision) {
 			do {
 				if (tipoAtaque.equals("")) {
 					hor = 1;
@@ -610,10 +715,10 @@ public class Ia extends Jugador {
 												ultimoAtaque[0] = values[0];
 												ultimoAtaque[1] = values[1];
 												decision = true;
-
+		
 											}
 										}
-
+		
 									}
 								} else {
 									values[1] = ultimoAtaque[1];
@@ -623,14 +728,14 @@ public class Ia extends Jugador {
 									lado1--;
 									decision = true;
 								}
-
+		
 								if (lado1 == 0) {
 									ultimoAtaque[0] = ataqueInicial[0];
 									ultimoAtaque[1] = ataqueInicial[1];
 								}
-
+		
 							}
-
+		
 						}
 						if (ultimoAtaque[0] != 0) {
 							if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(".")
@@ -648,7 +753,7 @@ public class Ia extends Jugador {
 												decision = true;
 											}
 										}
-
+		
 									}
 								} else {
 									values[1] = ultimoAtaque[1];
@@ -671,13 +776,6 @@ public class Ia extends Jugador {
 					}
 				}
 			} while (!decision);
-		}
-		decision = false;
-		/*Random random = new Random();
-		values[0] = random.nextInt(15);
-		values[1] = random.nextInt(15);
-		*/
-		return values;
+		}*/
 	}
-
 }

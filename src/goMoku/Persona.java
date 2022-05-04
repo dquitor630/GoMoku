@@ -14,7 +14,7 @@ public class Persona extends Jugador {
 		//cambiar a unicode
 		do {
 			exit = true;
-			result[0] = (int) consoleIn.readChar() - 97;
+			result[0] = (int) Character.toLowerCase(consoleIn.readChar()) - 97;
 			if (result[0] < 0 || result[0] > 14) {
 				exit = false;
 				System.out.println("Has introducido una coordenada no válida, vuelve a introducirla");
