@@ -8,6 +8,7 @@ public class Ia extends Jugador {
 	private int lado1 = 0;
 	private int lado2 = 0;
 	int numOpciones = 0;
+	String tipoAtaque = "";
 	private ArrayList<int[]> rangoAtaque = new ArrayList<>();
 
 	Ia(int numJugador) {
@@ -37,6 +38,7 @@ public class Ia extends Jugador {
 				ficha = Ficha.FICHA2.getFicha();
 			}
 		}
+		tablero[ultimaCasilla[1]][ultimaCasilla[0]] = ficha;
 		if (!(rangoAtaque.size() == 0)) {
 			nAtaque = validarAtaque(tableroOriginal, ultimaCasilla, ficha, fichaVerde);
 		}
@@ -326,10 +328,11 @@ public class Ia extends Jugador {
 								values[1] = i;
 								values[0] = ultimaCasilla[0];
 								decision = true;
+							} else {
+								exit = true;
 							}
 
 						}
-						exit = true;
 					}
 				}
 				exit = false;
@@ -341,9 +344,11 @@ public class Ia extends Jugador {
 								values[1] = i;
 								values[0] = ultimaCasilla[0];
 								decision = true;
+							} else {
+								exit = true;
 							}
 						}
-						exit = true;
+
 					}
 				}
 				exit = false;
@@ -466,8 +471,10 @@ public class Ia extends Jugador {
 							values[1] = i;
 							values[0] = ultimaCasilla[0];
 							decision = true;
+						} else {
+							exit = true;
 						}
-						exit = true;
+
 					}
 				}
 				exit = false;
@@ -478,8 +485,10 @@ public class Ia extends Jugador {
 							values[0] = ultimaCasilla[0];
 							values[1] = i;
 							decision = true;
+						} else {
+							exit = true;
 						}
-						exit = true;
+
 					}
 				}
 				exit = false;
@@ -574,9 +583,54 @@ public class Ia extends Jugador {
 					ver = 1;
 					lado1 = 0;
 					lado2 = 0;
+					ver = validarVertical(values, ver, tablero);
+					lado1 = 0;
+					lado2 = 0;
 					hor = validarHorizontal(values, hor, tablero);
+					if (hor >= 5 && ver >= 5) {
+						switch (random.nextInt(2)) {
+						case 0:
+							tipoAtaque = "ver";
+							break;
+						case 1:
+							tipoAtaque = "hor";
+							break;
+						}
+					} else if (hor >= 5) {
+						tipoAtaque = "hor";
+					} else if (ver >= 5) {
+						tipoAtaque = "ver";
+					}
+					if (tipoAtaque.equals("ver")) {
+						lado1 = 0;
+						lado2 = 0;
+						ver = 1;
+						ver = validarVertical(values, ver, tablero);
+						ataqueInicial[0] = values[0];
+						ataqueInicial[1] = values[1];
+						rangoAtaque.add(values);
+						for (int i = 1; i <= lado1; i++) {
+							if (i > lado1) {
 
-					if (hor >= 5) {
+							} else {
+								values[1] = ataqueInicial[1] + i;
+								rangoAtaque.add(Arrays.copyOf(values, 2));
+							}
+
+						}
+						for (int i = lado2; i > 0; i--) {
+							values[1] = ataqueInicial[1] - i;
+							rangoAtaque.add(Arrays.copyOf(values, 2));
+						}
+						if (rangoAtaque.size() < 5) {
+							System.out.println();
+						}
+						values[0] = ataqueInicial[0];
+						values[1] = ataqueInicial[1];
+						decision = true;
+						nAtaque = false;
+					}
+					if (tipoAtaque.equals("hor")) {
 						lado1 = 0;
 						lado2 = 0;
 						hor = 1;
@@ -678,13 +732,13 @@ public class Ia extends Jugador {
 
 	public int validarVertical(int[] values, int ver, String[][] tablero) {
 		boolean exit = false;
-		for (int i = values[0] + 1; i <= 14 && !exit; i++) {
-			if (tablero[values[1]][i].equals(".") && ver < 5) {
+		for (int i = values[1] + 1; i <= 14 && !exit; i++) {
+			if (tablero[i][values[0]].equals(".") && ver < 5) {
 				if (i < 15) {
 					ver = ver + 1;
 					lado1 = lado1 + 1;
 				}
-			} else if (tablero[values[1]][i].equals(this.getFicha()) && ver < 5) {
+			} else if (tablero[i][values[0]].equals(this.getFicha()) && ver < 5) {
 				if (i < 15) {
 					ver = ver + 1;
 					lado1 = lado1 + 1;
@@ -694,11 +748,11 @@ public class Ia extends Jugador {
 			}
 		}
 		exit = false;
-		for (int i = values[0] - 1; i >= 0 && ver < 5; i--) {
-			if (tablero[values[1]][i].equals(".") && ver < 5) {
+		for (int i = values[1] - 1; i >= 0 && ver < 5; i--) {
+			if (tablero[i][values[0]].equals(".") && ver < 5) {
 				ver = ver + 1;
 				lado2 = lado2 + 1;
-			} else if (tablero[values[1]][i].equals(this.getFicha()) && ver < 5) {
+			} else if (tablero[i][values[0]].equals(this.getFicha()) && ver < 5) {
 				ver = ver + 1;
 				lado2 = lado2 + 1;
 			} else {
