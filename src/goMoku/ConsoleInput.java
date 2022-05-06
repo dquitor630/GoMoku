@@ -45,7 +45,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return by;
-
 	}
 
 	public byte readByteLessorEqualThan(byte upperBound) {
@@ -61,7 +60,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return by;
-
 	}
 
 	public byte readByteGreaterThan(byte lowerBound) {
@@ -77,7 +75,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return by;
-
 	}
 
 	public byte readByteGreaterOrEqualThan(byte lowerBound) {
@@ -108,7 +105,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return by;
-
 	}
 
 	public long readLong() {
@@ -140,7 +136,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return lon;
-
 	}
 
 	public long readLongLessorEqualThan(long upperBound) {
@@ -156,7 +151,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return lon;
-
 	}
 
 	public long readLongGreaterThan(long lowerBound) {
@@ -172,7 +166,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return lon;
-
 	}
 
 	public long readLongGreaterOrEqualThan(long lowerBound) {
@@ -203,7 +196,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return lon;
-
 	}
 
 	public int readInt() {
@@ -236,7 +228,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return in;
-
 	}
 
 	public int readIntLessorEqualThan(int upperBound) {
@@ -252,7 +243,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return in;
-
 	}
 
 	public int readIntGreaterThan(int lowerBound) {
@@ -301,7 +291,6 @@ public class ConsoleInput {
 			}
 		} while (!exit);
 		return in;
-
 	}
 
 	public short readShort() {
