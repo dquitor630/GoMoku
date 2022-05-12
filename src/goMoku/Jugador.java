@@ -27,4 +27,8 @@ public abstract class Jugador {
 		}
 
 	}
+
+	public int getNumJugador() {
+		return numJugador;
+	}
 }

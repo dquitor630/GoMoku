@@ -3,17 +3,18 @@ package goMoku;
 import java.util.Scanner;
 
 public class Juego {
-
+	//espacios para mejorar la salida de la consola
 	public static void main(String[] args) {
 		boolean exit = false;
 		Scanner keyboard = new Scanner(System.in);
 		ConsoleInput consoleIn = new ConsoleInput(keyboard);
 		Opciones opciones = new Opciones();
 		byte opcion;
-		Jugador ia1 = new Ia(1);
-		Jugador ia2 = new Ia(2);
-		Jugador persona = new Persona(1, "null");
-		Jugador persona2 = new Persona(2, "null");
+		final String espacio = "\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		Jugador ia1;
+		Jugador ia2;
+		Jugador persona;
+		Jugador persona2;
 		boolean game = false;
 		do {
 			//estaría interesante tirar una moneda para ver quien empieza primero
@@ -28,15 +29,18 @@ public class Juego {
 			opcion = consoleIn.readByteInRange((byte) 1, (byte) 4);
 			switch (opcion) {
 			case 1:
-				System.out.println("Introduce el nombre para el jugador 1:");
+				System.out.println(Colors.BLUE + "Introduce el nombre para el jugador 1:" + Colors.RESET);
 				persona = new Persona(1, consoleIn.readString());
-				System.out.println("Introduce el nombre para el jugador 2:");
+				System.out.println(Colors.YELLOW + "Introduce el nombre para el jugador 2:" + Colors.RESET);
+
 				persona2 = new Persona(2, consoleIn.readString());
+				System.out.println(espacio);
 				@SuppressWarnings("unused")
 				Partida partida = new Partida(persona, persona2, opciones);
 				do {
 					System.out.println("¿Volver a jugar? s/n");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						System.out.println(espacio);
 						partida = new Partida(persona, persona2, opciones);
 						game = false;
 					} else {
@@ -46,14 +50,16 @@ public class Juego {
 
 				break;
 			case 2:
-				System.out.println("introduce el nombre para el jugador: ");
+				System.out.println(Colors.BLUE + "Introduce el nombre para el jugador:" + Colors.RESET);
 				persona = new Persona(1, consoleIn.readString());
 				ia1 = new Ia(2);
+				System.out.println(espacio);
 				partida = new Partida(persona, ia1, opciones);
 				game = false;
 				do {
 					System.out.println("¿Volver a jugar? s/n");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						System.out.println(espacio);
 						partida = new Partida(persona, ia1, opciones);
 						game = false;
 					} else {
@@ -64,11 +70,13 @@ public class Juego {
 			case 3:
 				ia1 = new Ia(1);
 				ia2 = new Ia(2);
+				System.out.println(espacio);
 				partida = new Partida(ia1, ia2, opciones);
 				game = false;
 				do {
 					System.out.println("¿Volver a jugar? s/n");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
+						System.out.println(espacio);
 						partida = new Partida(ia1, ia2, opciones);
 						game = false;
 					} else {
@@ -85,18 +93,22 @@ public class Juego {
 					case 1:
 						if (opciones.isConfirmacion()) {
 							opciones.setConfirmacion(false);
+							System.out.println(espacio);
 							System.out.println("Confirmación desactivada");
 						} else {
 							opciones.setConfirmacion(true);
+							System.out.println(espacio);
 							System.out.println("Confirmación activada");
 						}
 						break;
 					case 2:
 						if (opciones.getRetrasoConsola() == 1) {
 							opciones.setRetrasoConsola(0);
+							System.out.println(espacio);
 							System.out.println("Retraso Desactivado");
 						} else {
 							opciones.setRetrasoConsola(1);
+							System.out.println(espacio);
 							System.out.println("Retraso Activado");
 						}
 						//añadir modo para daltónicos
@@ -106,6 +118,7 @@ public class Juego {
 					}
 				} while (!exit);
 				exit = false;
+				System.out.println(espacio);
 				break;
 			}
 

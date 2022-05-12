@@ -19,13 +19,17 @@ public class Tablero {
 	public int[] ultimaCasilla = new int[2];
 
 	//un constructor es para pasarle por primera vez las opciones y ya no tener que pasarlas otra vez
-	Tablero(Opciones opciones) {
+	public Tablero(Opciones opciones) {
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[i].length; j++) {
 				tablero[i][j] = ".";
 			}
 		}
 		this.opciones = opciones;
+	}
+
+	public void modificarJUnit(int coordy, int coordx) {
+		tablero[coordy][coordx] = Colors.BLUE + "X" + Colors.RESET;
 	}
 
 	public boolean modificarTablero(int[] coord, String ficha, String className) {
@@ -44,6 +48,7 @@ public class Tablero {
 			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
 				if (opciones.isConfirmacion()) {
 					tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
+					System.out.println("\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 					pintarTablero();
 					System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
@@ -72,6 +77,7 @@ public class Tablero {
 				verificarVictoria();
 			}
 			//para que nos de la salida en verde la siguiente
+			System.out.println("\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			pintarTablero();
 			//deberiamos verificar aquí si el jugador ha ganado
 		} else {
@@ -194,6 +200,10 @@ public class Tablero {
 			return false;
 		}
 
+	}
+
+	public void setTablero(String[][] tablero) {
+		this.tablero = tablero;
 	}
 
 	public String[][] getTablero() {

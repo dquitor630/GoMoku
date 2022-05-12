@@ -48,8 +48,13 @@ public class Partida {
 	private boolean victoria(Jugador jugador) {
 		boolean game = false;
 		if (tablero.isTerminado()) {
+			if (jugador.getNumJugador() == 1) {
+				System.out.println(Colors.BLUE + "Ha ganado el jugador " + jugador.getNombre() + Colors.RESET);
+			} else {
+				System.out.println(Colors.YELLOW + "Ha ganado el jugador " + jugador.getNombre() + Colors.RESET);
+			}
 			game = true;
-			System.out.println("Ha ganado el jugador " + jugador.getNombre());
+
 		}
 		return game;
 	}
@@ -57,10 +62,15 @@ public class Partida {
 	private void turno(Jugador jugador) {
 		numTurno = numTurno + 1;
 		boolean exit;
-		System.out.println("Turno " + numTurno + ", Jugador " + jugador.getNombre());
+		if (jugador.getNumJugador() == 1) {
+			System.out.println(Colors.BLUE + "Turno " + numTurno + ", Jugador " + jugador.getNombre() + Colors.RESET);
+		} else {
+			System.out.println(Colors.YELLOW + "Turno " + numTurno + ", Jugador " + jugador.getNombre() + Colors.RESET);
+		}
 		do {
 			exit = tablero.modificarTablero(jugador.indicarCoordenada(tablero), jugador.getFicha(),
 					jugador.getClass().getSimpleName());
+
 		} while (!exit);
 		try {
 			TimeUnit.SECONDS.sleep(opciones.getRetrasoConsola());

@@ -12,8 +12,9 @@ public class Opciones {
 		this.retrasoConsola = retrasoConsola;
 	}
 
-	Opciones() {
+	public Opciones() {
 		confirmacion = true;
+		retrasoConsola = 1;
 
 	}
 
