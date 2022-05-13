@@ -1,11 +1,28 @@
 package goMoku;
 
+/**
+ *  Clase hija de jugador que representa un usuario.
+  * @author Diego Quiros Torres
+  * @version 1.0
+  * @since 1.0
+  * @see Jugador
+  * 
+ *
+ */
 public class Persona extends Jugador {
 
+	/**
+	 * Constructor de la clase Persona.
+	 * @param numJugador int del numero del jugador.
+	 * @param nombre String del nombre del jugador.
+	 */
 	Persona(int numJugador, String nombre) {
 		super(numJugador, nombre);
 	}
 
+	/**
+	 * Metodo para indicar coordenadas.
+	 */
 	@Override
 	public int[] indicarCoordenada(Tablero tablero) {
 		boolean exit;

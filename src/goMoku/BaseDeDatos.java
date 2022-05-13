@@ -4,12 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Este Enum almacena diversos nombres para la IA.
+ * 
+ * @author Diego Quiros Torres
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 public enum BaseDeDatos {
+	/**
+	 * Instancia del enum.
+	 */
 	INSTANCE;
 
+	/**
+	 * ArrayList que almacena Strings de nombres.
+	 */
 	private List<String> nombres = new ArrayList<>();
+	/**
+	 * Generador de numeros randoms.
+	 */
 	private Random random = new Random();
 
+	/**
+	 * Constructor del Enum, al crearse se añade todos los nombres a la base de datos.
+	 */
 	private BaseDeDatos() {
 
 		nombres.add("Hernán");
@@ -138,10 +158,18 @@ public enum BaseDeDatos {
 
 	}
 
+	/**
+	 * Metodo que nos devuelve una cadena con un nombre seleccionado al azar.
+	 * @return
+	 */
 	public String getRandomName() {
 		return nombres.get(random.nextInt(nombres.size()));
 	}
 
+	/**
+	 * Metodo que nos devuelve la lista de nombres.
+	 * @return String
+	 */
 	public List<String> queryAllNames() {
 		return nombres;
 	}

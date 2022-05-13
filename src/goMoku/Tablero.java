@@ -2,23 +2,58 @@ package goMoku;
 
 import java.util.Scanner;
 
+/**
+ *  Clase que representa al tablero de la partida.
+  * @author Diego Quiros Torres
+  * @version 1.0
+  * @since 1.0
+  * 
+ *
+ */
 public class Tablero {
+	/**
+	 * Atributo de tipo String en array multidimensional que almacena las fichas.
+	 */
 	private String[][] tablero = new String[15][15];
+	/**
+	 * Atributo de tipo String en array multidimensional que almacena el diseño del tablero.
+	 */
 	private final String[][] coordenadas = {
 			{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O" },
 			{ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15" } };
+	/**
+	 * Teclado para el ConsoleInput.
+	 */
 	Scanner keyboard = new Scanner(System.in);
+	/**
+	 * ConsoleInput para introducir datos.
+	 */
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
+	/**
+	 * Atributo de tipo boolean que almacena si el tablero esta terminado.
+	 */
 	private boolean terminado;
+	/**
+	 * Atributo que almacena un objeto Opciones con las opciones del usuario.
+	 */
 	private Opciones opciones;
+	/**
+	 * Atributo de tipo int que almacena donde se guarda la ultima casilla.
+	 */
+	public int[] ultimaCasilla = new int[2];
 
+	/**
+	 * Metodo que devuelve si la partida esta terminada.
+	 * @return boolean
+	 */
 	public boolean isTerminado() {
 		return terminado;
 	}
 
-	public int[] ultimaCasilla = new int[2];
-
-	//un constructor es para pasarle por primera vez las opciones y ya no tener que pasarlas otra vez
+	/**
+	 * Constructor de la clase tablero que asigna los puntos al tablero.
+	 * @param opciones objeto Opciones de la partida.
+	 */
 	public Tablero(Opciones opciones) {
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[i].length; j++) {
@@ -28,10 +63,22 @@ public class Tablero {
 		this.opciones = opciones;
 	}
 
+	/**
+	 * Metodo exclusivo para utilizarlo en el Junit.
+	 * @param coordy int coordenada y para introducir.
+	 * @param coordx int coordenada x para introducir.
+	 */
 	public void modificarJUnit(int coordy, int coordx) {
 		tablero[coordy][coordx] = Colors.BLUE + "X" + Colors.RESET;
 	}
 
+	/**
+	 * Metodo para modificar el tablero.
+	 * @param coord int[] que almacena la coordenada donde se pondra la ficha.
+	 * @param ficha String que almacena la ficha del jugador que la coloca.
+	 * @param className String que almacena el nombre de la clase del jugador para saber si debe confirmar su ficha en caso de que la opcion este activada.
+	 * @return boolean
+	 */
 	public boolean modificarTablero(int[] coord, String ficha, String className) {
 		boolean valid = true;
 		String fichaRival = "";
@@ -87,6 +134,10 @@ public class Tablero {
 		return valid;
 	}
 
+	/**
+	 * Metodo que verifica si se ha ganado
+	 * @return boolean
+	 */
 	public boolean verificarVictoria() {
 		int hor = 1;
 		int ver = 1;
@@ -202,18 +253,33 @@ public class Tablero {
 
 	}
 
+	/**
+	 * Metodo que cambia el atributo tablero.
+	 * @param tablero Tablero con coordenadas nuevas
+	 */
 	public void setTablero(String[][] tablero) {
 		this.tablero = tablero;
 	}
 
+	/**
+	 * Metodo que devuelve el tablero.
+	 * @return String
+	 */
 	public String[][] getTablero() {
 		return tablero;
 	}
 
+	/**
+	 * Metodo que devuelve la ultima casilla.
+	 * @return int[]
+	 */
 	public int[] getUltimaCasilla() {
 		return ultimaCasilla;
 	}
 
+	/**
+	 * Metodo que pinta por consola el tablero
+	 */
 	public void pintarTablero() {
 		System.out.print("   ");
 		for (int i = 0; i < coordenadas[0].length; i++) {

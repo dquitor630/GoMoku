@@ -2,6 +2,14 @@ package goMoku;
 
 import java.util.Scanner;
 
+/**
+ * Main del juego.
+ * @author Diego Quiros Torres
+ * @version 1.0
+ * @since 1.0
+ * @see #Jugador
+ *
+ */
 public class Juego {
 	//espacios para mejorar la salida de la consola
 	public static void main(String[] args) {

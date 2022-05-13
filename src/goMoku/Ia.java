@@ -4,16 +4,46 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ *  Clase hija de jugador que representa la inteligencia artificial.
+  * @author Diego Quiros Torres
+  * @version 1.0
+  * @since 1.0
+  * @see Jugador
+  * 
+ *
+ */
 public class Ia extends Jugador {
+	/**
+	 * Atributo de tipo int que almacena uno de los lados del ataque.
+	 */
 	private int lado1 = 0;
+	/**
+	 * Atributo de tipo int que almacena uno de los lados del ataque.
+	 */
 	private int lado2 = 0;
+	/**
+	 * Atributo de tipo String que almacena la direccion del ataque actual.
+	 */
 	private String tipoAtaque = "";
+	/**
+	 * ArrayList de tipo int que almacena las coordenadas del ataque.
+	 */
 	private ArrayList<int[]> rangoAtaque = new ArrayList<>();
 
+	/**
+	 * Constructor de la clase ia.
+	 * @param numJugador int del Numero del jugador.
+	 */
 	Ia(int numJugador) {
 		super(numJugador, BaseDeDatos.INSTANCE.getRandomName());
 	}
 
+	/**
+	 * Metodo de la ia para calcular la coordenada, realizando segun que situacion un ataque o una defensa.
+	 * @param tableroOriginal objeto Tablero actual de la partida.
+	 * @return int[]
+	 */
 	protected int[] indicarCoordenada(Tablero tableroOriginal) {
 		int[] values = new int[2];
 		int hor = 1;
@@ -658,6 +688,14 @@ public class Ia extends Jugador {
 		return values;
 	}
 
+	/**
+	 * Valida que el ataque actual puede continuarse.
+	 * @param tablero objeto Tablero actual de la partida.
+	 * @param ultimaCasilla int[] de la Ultima casilla utilizada.
+	 * @param ficha Cadena de la ficha del jugador.
+	 * @param fichaVerde Cadena de la ficha del jugador.
+	 * @return
+	 */
 	public boolean validarAtaque(Tablero tablero, int[] ultimaCasilla, String ficha, String fichaVerde) {
 		boolean result = false;
 		for (int i = 0; i < rangoAtaque.size() && !result; i++) {
@@ -669,6 +707,14 @@ public class Ia extends Jugador {
 		}
 		return result;
 	}
+
+	/**
+	 * valida que se puede realizar un ataque horizontal.
+	 * @param values int[] de la Coordenada escogida al azar de la que partiremos.
+	 * @param hor int del Numero de fichas encadenadas horizontalmente.
+	 * @param tablero objeto Tablero de la partida.
+	 * @return int
+	 */
 
 	public int validarHorizontal(int[] values, int hor, String[][] tablero) {
 		boolean exit = false;
@@ -703,6 +749,13 @@ public class Ia extends Jugador {
 		return hor;
 	}
 
+	/**
+	 * valida que se puede realizar un ataque vertical.
+	 * @param values int[] de la Coordenada escogida al azar de la que partiremos.
+	 * @param ver int del Numero de fichas encadenadas verticalmente.
+	 * @param tablero String[][] del  Tablero de la partida.
+	 * @return int
+	 */
 	public int validarVertical(int[] values, int ver, String[][] tablero) {
 		boolean exit = false;
 		for (int i = values[1] + 1; i <= 14 && !exit; i++) {
@@ -736,129 +789,4 @@ public class Ia extends Jugador {
 		return ver;
 	}
 
-	public void ataque() {
-		/* if (!decision) {
-			do {
-				if (tipoAtaque.equals("")) {
-					hor = 1;
-					exit = false;
-					do {
-						values[0] = random.nextInt(15);
-						values[1] = random.nextInt(15);
-						lado1 = 0;
-						lado2 = 0;
-						for (int i = values[0]; i <= 14 && !exit; i++) {
-							if (tablero[1][i].equals(".") && hor < 5) {
-								hor = hor + 1;
-								lado1 = lado1 + 1;
-							} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
-								hor = hor + 1;
-								lado1 = lado1 + 1;
-							} else {
-								exit = true;
-							}
-						}
-						exit = false;
-						for (int i = values[0]; i >= 0 && hor < 5; i--) {
-							if (tablero[1][i].equals(".") && hor < 5) {
-								hor = hor + 1;
-								lado2 = lado2 + 1;
-							} else if (tablero[1][i].equals(this.getFicha()) && hor < 5) {
-								hor = hor + 1;
-								lado2 = lado2 + 1;
-							} else {
-								exit = true;
-							}
-						}
-						exit = false;
-						if (hor >= 5) {
-							decision = true;
-							tipoAtaque = "hor";
-							cantidadAtaque++;
-							ultimoAtaque[0] = values[0];
-							ultimoAtaque[1] = values[1];
-							ataqueInicial[0] = values[0];
-							ataqueInicial[1] = values[1];
-						}
-					} while (!decision);
-				} else {
-					switch (tipoAtaque) {
-					case "hor":
-						if (ultimoAtaque[0] != 14) {
-							if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(".")
-									|| tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(this.getFicha())
-											&& lado1 > 0 && !decision) {
-								if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 1].equals(this.getFicha())) {
-									if (lado1 == 2) {
-										lado1 = lado1 - 2;
-										if (ultimoAtaque[0] != 13) {
-											if (tablero[ultimoAtaque[1]][ultimoAtaque[0] + 2].equals(".")) {
-												values[1] = ultimoAtaque[1];
-												values[0] = ultimoAtaque[0] + 2;
-												ultimoAtaque[0] = values[0];
-												ultimoAtaque[1] = values[1];
-												decision = true;
-		
-											}
-										}
-		
-									}
-								} else {
-									values[1] = ultimoAtaque[1];
-									values[0] = ultimoAtaque[0] + 1;
-									ultimoAtaque[0] = values[0];
-									ultimoAtaque[1] = values[1];
-									lado1--;
-									decision = true;
-								}
-		
-								if (lado1 == 0) {
-									ultimoAtaque[0] = ataqueInicial[0];
-									ultimoAtaque[1] = ataqueInicial[1];
-								}
-		
-							}
-		
-						}
-						if (ultimoAtaque[0] != 0) {
-							if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(".")
-									|| tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(this.getFicha())
-											&& lado2 > 0 && !decision) {
-								if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 1].equals(this.getFicha())) {
-									if (lado2 == 2) {
-										if (ultimoAtaque[0] > 1) {
-											if (tablero[ultimoAtaque[1]][ultimoAtaque[0] - 2].equals(this.getFicha())) {
-												lado2 = lado2 - 2;
-												values[1] = ultimoAtaque[1];
-												values[0] = ultimoAtaque[0] - 2;
-												ultimoAtaque[0] = values[0];
-												ultimoAtaque[1] = values[1];
-												decision = true;
-											}
-										}
-		
-									}
-								} else {
-									values[1] = ultimoAtaque[1];
-									values[0] = ultimoAtaque[0] - 1;
-									ultimoAtaque[0] = values[0];
-									ultimoAtaque[1] = values[1];
-									lado2--;
-									decision = true;
-								}
-							}
-						}
-						if (decision) {
-							cantidadAtaque++;
-						}
-						if (!decision) {
-							tipoAtaque = "";
-							cantidadAtaque = 0;
-						}
-						break;
-					}
-				}
-			} while (!decision);
-		}*/
-	}
 }
