@@ -27,6 +27,7 @@ public abstract class Jugador {
 	 * ConsoleInput para introducir datos.
 	 */
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
+	protected String ficha;
 
 	/**
 	 * Constructor de la clase jugador
@@ -36,6 +37,11 @@ public abstract class Jugador {
 	Jugador(int numJugador, String nombre) {
 		this.numJugador = numJugador;
 		this.nombre = nombre;
+		if (numJugador == 1) {
+			this.ficha = Ficha.FICHA1.getFicha();
+		} else {
+			this.ficha = Ficha.FICHA2.getFicha();
+		}
 	}
 
 	/**
@@ -58,12 +64,7 @@ public abstract class Jugador {
 	 */
 
 	public String getFicha() {
-		if (numJugador == 1) {
-			return Ficha.FICHA1.getFicha();
-		} else {
-			return Ficha.FICHA2.getFicha();
-		}
-
+		return this.ficha;
 	}
 
 	/**

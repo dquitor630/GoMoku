@@ -18,7 +18,7 @@ public class Juego {
 		ConsoleInput consoleIn = new ConsoleInput(keyboard);
 		Opciones opciones = new Opciones();
 		byte opcion;
-		final String espacio = "\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+		final String espacio = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 		Jugador ia1;
 		Jugador ia2;
 		Jugador persona;

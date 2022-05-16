@@ -95,7 +95,7 @@ public class Tablero {
 			if (className.equals("Persona")) { //esto lo hago para no preguntarle a la ia si esta seguro
 				if (opciones.isConfirmacion()) {
 					tablero[coord[1]][coord[0]] = Colors.RED + ficha.substring(5, 6) + Colors.RESET; //Aquí hacer ficha de color distinto
-					System.out.println("\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+					System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 					pintarTablero();
 					System.out.println("el tablero quedaría tal que así ¿desea confirmar? (s/n)");
 					if (consoleIn.readBooleanUsingChar('s', 'n')) {
@@ -124,7 +124,7 @@ public class Tablero {
 				verificarVictoria();
 			}
 			//para que nos de la salida en verde la siguiente
-			System.out.println("\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			pintarTablero();
 			//deberiamos verificar aquí si el jugador ha ganado
 		} else {

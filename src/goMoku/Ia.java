@@ -50,6 +50,7 @@ public class Ia extends Jugador {
 		int ver = 1;
 		int dia1 = 1;
 		int dia2 = 1;
+		int intentos = 0;
 		int storedRandom = 0;
 		boolean nAtaque = true;
 		boolean decision = false;
@@ -233,7 +234,7 @@ public class Ia extends Jugador {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[j][i].equals(".") && j < 13 && i > 1) {
-							if (tablero[j + 1][i - 1].equals(ficha)) {
+							if (tablero[j + 1][i - 1].equals(ficha) && tablero[j + 2][i - 2].equals(ficha)) {
 								values[0] = i;
 								values[1] = j;
 								decision = true;
@@ -252,7 +253,7 @@ public class Ia extends Jugador {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[j][i].equals(".") && j > 1 && i < 13) {
-							if (tablero[j - 1][i + 1].equals(ficha)) {
+							if (tablero[j - 1][i + 1].equals(ficha) && tablero[j - 2][i + 2].equals(ficha)) {
 								values[0] = i;
 								values[1] = j;
 								decision = true;
@@ -273,7 +274,7 @@ public class Ia extends Jugador {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[j][i].equals(".") && j < 13 && i < 13) {
-							if (tablero[j + 1][i + 1].equals(ficha)) {
+							if (tablero[j + 1][i + 1].equals(ficha) && tablero[j + 2][i + 2].equals(ficha)) {
 								values[0] = i;
 								values[1] = j;
 								decision = true;
@@ -291,7 +292,7 @@ public class Ia extends Jugador {
 					if (tablero[j][i].equals(ficha)) {
 					} else {
 						if (!decision && tablero[j][i].equals(".") && j > 1 && i > 1) {
-							if (tablero[j - 1][i - 1].equals(ficha)) {
+							if (tablero[j - 1][i - 1].equals(ficha) && tablero[j - 2][i - 2].equals(ficha)) {
 								values[0] = i;
 								values[1] = j;
 								decision = true;
@@ -662,6 +663,7 @@ public class Ia extends Jugador {
 						values[1] = ataqueInicial[1];
 						decision = true;
 						nAtaque = false;
+						intentos++;
 					}
 				} else {
 					do {
@@ -678,8 +680,16 @@ public class Ia extends Jugador {
 					} while (!exit);
 					exit = false;
 				}
-			} while (!decision);
+			} while (!decision && intentos <= 30);
+			if (!decision && intentos >= 30) {
+				values[0] = random.nextInt(15);
+				values[0] = random.nextInt(15);
+				intentos = 0;
+			} else {
+				intentos = 0;
+			}
 		}
+
 		decision = false;
 		/*Random random = new Random();
 		values[0] = random.nextInt(15);
@@ -699,7 +709,6 @@ public class Ia extends Jugador {
 	public boolean validarAtaque(Tablero tablero, int[] ultimaCasilla, String ficha, String fichaVerde) {
 		boolean result = false;
 		for (int i = 0; i < rangoAtaque.size() && !result; i++) {
-			System.out.println(rangoAtaque.get(i)[0]);
 			if (tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(ficha)
 					|| tablero.getTablero()[rangoAtaque.get(i)[1]][rangoAtaque.get(i)[0]].equals(fichaVerde)) {
 				result = true;
