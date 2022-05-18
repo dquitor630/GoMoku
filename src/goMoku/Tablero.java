@@ -245,7 +245,7 @@ public class Tablero {
 		exit = false;
 		if (hor >= 5 || ver >= 5 || dia1 >= 5 || dia2 >= 5) {
 			terminado = true;
-			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.CYAN + ficha.substring(5, 6) + Colors.RESET;
+			tablero[ultimaCasilla[1]][ultimaCasilla[0]] = Colors.GREEN + ficha.substring(5, 6) + Colors.RESET;
 			return true;
 		} else {
 			return false;
