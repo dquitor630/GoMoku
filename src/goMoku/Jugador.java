@@ -27,6 +27,9 @@ public abstract class Jugador {
 	 * ConsoleInput para introducir datos.
 	 */
 	ConsoleInput consoleIn = new ConsoleInput(keyboard);
+	/**
+	 * Atributo de clase String que almacena las fichas del jugador
+	 */
 	protected String ficha;
 
 	/**
